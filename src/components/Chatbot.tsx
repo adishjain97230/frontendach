@@ -1,9 +1,17 @@
+import { useState } from "react";
+
 interface ChatbotProps {
   prompt: string;
   setPrompt: React.Dispatch<React.SetStateAction<string>>;
 }
 
+type ChatTurn = {
+  prompt: string;
+  response: string;
+};
+
 const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
+  const [chatTurns, setChatTurns] = useState<ChatTurn[]>([]);
   const handleSend = async () => {
     console.log(prompt);
     const response = await fetch(
@@ -12,16 +20,32 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
         method: "POST",
         headers: {},
         body: JSON.stringify({
-          "prompt": prompt,
+          prompt: prompt,
         }),
       },
     );
     const data = await response.json();
     console.log(data);
+    setChatTurns([...chatTurns, { prompt: prompt, response: data.response }]);
+    setPrompt("");
   };
   return (
     <>
       {/* <label htmlFor="msg">Enter your prompt</label> */}
+      <ul>
+        {chatTurns.map((turn, i) => {
+          return (
+            <li key={i}>
+              <div>
+                <strong>You:</strong> {turn.prompt}
+              </div>
+              <div>
+                <strong>Bot:</strong> {turn.response}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
       <textarea
         id="msg"
         // type="text"
