@@ -12,7 +12,11 @@ type ChatTurn = {
 
 const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
   const [chatTurns, setChatTurns] = useState<ChatTurn[]>([]);
+  const [currentPrompt, setCurrentPrompt] = useState("");
+
   const handleSend = async () => {
+    setCurrentPrompt(prompt);
+    setPrompt("");
     console.log(prompt);
     const response = await fetch(
       "http://13.236.109.109:8000/machine-learning/chatbot/chat/",
@@ -27,9 +31,10 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
     );
     const data = await response.json();
     console.log(data);
+    setCurrentPrompt("");
     setChatTurns([...chatTurns, { prompt: prompt, response: data.response }]);
-    setPrompt("");
   };
+
   return (
     <>
       {/* <label htmlFor="msg">Enter your prompt</label> */}
@@ -46,6 +51,17 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
             </li>
           );
         })}
+        {currentPrompt && (
+          <li>
+            <div>
+              <strong>You:</strong> {currentPrompt}
+            </div>
+            <div>
+              <strong>Bot:</strong>{" "}
+              <span className="spinner-border spinner-border-sm"></span>
+            </div>
+          </li>
+        )}
       </ul>
       <textarea
         id="msg"
