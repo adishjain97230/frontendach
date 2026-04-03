@@ -24,7 +24,7 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
         method: "POST",
         headers: {},
         body: JSON.stringify({
-          prompt: prompt,
+          prompt: currentPrompt,
           chat_history: chatTurns,
         }),
       },
