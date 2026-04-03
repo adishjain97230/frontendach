@@ -15,7 +15,10 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
   const [currentPrompt, setCurrentPrompt] = useState("");
 
   const handleSend = async () => {
-    if (!prompt.trim()) return;
+    if (!prompt.trim()) {
+      setPrompt("");
+      return;
+    }
     const userMessage = prompt;
     setCurrentPrompt(prompt);
     setPrompt("");
