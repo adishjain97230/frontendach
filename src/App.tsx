@@ -1,6 +1,6 @@
 // import Button from "./components/Button";
 import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+// import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Chatbot from "./components/Chatbot";
 import { useState } from "react";
 

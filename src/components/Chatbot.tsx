@@ -13,12 +13,15 @@ type ChatTurn = {
 const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
   const [chatTurns, setChatTurns] = useState<ChatTurn[]>([]);
   const [currentPrompt, setCurrentPrompt] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSend = async () => {
     if (!prompt.trim()) {
       setPrompt("");
       return;
     }
+    if (isLoading) return;
+    setIsLoading(true);
     const userMessage = prompt;
     setPrompt("");
     setCurrentPrompt(userMessage);
@@ -39,10 +42,20 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
     } catch (error) {
       console.error(error);
       setCurrentPrompt("");
-      setChatTurns([
-        ...chatTurns,
+      setChatTurns((prev) => [
+        ...prev,
         { prompt: userMessage, response: "Error fetching response..." },
       ]);
+      setIsLoading(false);
+      return;
+    }
+    if (!response.ok) {
+      setCurrentPrompt("");
+      setChatTurns((prev) => [
+        ...prev,
+        { prompt: userMessage, response: "Error fetching response..." },
+      ]);
+      setIsLoading(false);
       return;
     }
     let data: any;
@@ -51,10 +64,11 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
     } catch (error) {
       console.error(error);
       setCurrentPrompt("");
-      setChatTurns([
-        ...chatTurns,
+      setChatTurns((prev) => [
+        ...prev,
         { prompt: userMessage, response: "Error parsing response..." },
       ]);
+      setIsLoading(false);
       return;
     }
 
@@ -65,18 +79,20 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
       typeof (data as { response?: unknown }).response !== "string"
     ) {
       setCurrentPrompt("");
-      setChatTurns([
-        ...chatTurns,
+      setChatTurns((prev) => [
+        ...prev,
         { prompt: userMessage, response: "Invalid response from server..." },
       ]);
+      setIsLoading(false);
       return;
     }
 
     setCurrentPrompt("");
-    setChatTurns([
-      ...chatTurns,
+    setChatTurns((prev) => [
+      ...prev,
       { prompt: userMessage, response: data.response },
     ]);
+    setIsLoading(false);
   };
 
   return (
@@ -117,8 +133,13 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
         placeholder="Type something.."
       />
       <p>{prompt.length} / 2000</p>
-      <button type="button" className="btn btn-primary" onClick={handleSend}>
-        Send
+      <button
+        type="button"
+        className="btn btn-primary"
+        onClick={handleSend}
+        disabled={isLoading || !prompt.trim()}
+      >
+        {isLoading ? "Sending..." : "Send"}
       </button>
     </>
   );
