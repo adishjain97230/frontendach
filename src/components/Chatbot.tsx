@@ -20,24 +20,63 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
       return;
     }
     const userMessage = prompt;
-    setCurrentPrompt(prompt);
     setPrompt("");
-    console.log(prompt);
-    const response = await fetch(
-      "http://13.236.109.109:8000/machine-learning/chatbot/chat/",
-      {
-        method: "POST",
-        headers: {},
-        body: JSON.stringify({
-          prompt: userMessage,
-          chat_history: chatTurns.slice(-10),
-        }),
-      },
-    );
-    const data = await response.json();
-    console.log(data);
+    setCurrentPrompt(userMessage);
+
+    let response: Response;
+    try {
+      response = await fetch(
+        "http://13.236.109.109:8000/machine-learning/chatbot/chat/",
+        {
+          method: "POST",
+          headers: {},
+          body: JSON.stringify({
+            prompt: userMessage,
+            chat_history: chatTurns.slice(-10),
+          }),
+        },
+      );
+    } catch (error) {
+      console.error(error);
+      setCurrentPrompt("");
+      setChatTurns([
+        ...chatTurns,
+        { prompt: userMessage, response: "Error fetching response..." },
+      ]);
+      return;
+    }
+    let data: any;
+    try {
+      data = await response.json();
+    } catch (error) {
+      console.error(error);
+      setCurrentPrompt("");
+      setChatTurns([
+        ...chatTurns,
+        { prompt: userMessage, response: "Error parsing response..." },
+      ]);
+      return;
+    }
+
+    if (
+      data === null ||
+      typeof data !== "object" ||
+      !("response" in data) ||
+      typeof (data as { response?: unknown }).response !== "string"
+    ) {
+      setCurrentPrompt("");
+      setChatTurns([
+        ...chatTurns,
+        { prompt: userMessage, response: "Invalid response from server..." },
+      ]);
+      return;
+    }
+
     setCurrentPrompt("");
-    setChatTurns([...chatTurns, { prompt: prompt, response: data.response }]);
+    setChatTurns([
+      ...chatTurns,
+      { prompt: userMessage, response: data.response },
+    ]);
   };
 
   return (
