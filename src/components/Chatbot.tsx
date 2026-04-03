@@ -30,7 +30,7 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
         headers: {},
         body: JSON.stringify({
           prompt: userMessage,
-          chat_history: chatTurns,
+          chat_history: chatTurns.slice(-10),
         }),
       },
     );
@@ -73,9 +73,11 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
         // type="text"
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
+        maxLength={2000}
         rows={3}
         placeholder="Type something.."
       />
+      <p>{prompt.length} / 2000</p>
       <button type="button" className="btn btn-primary" onClick={handleSend}>
         Send
       </button>
