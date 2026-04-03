@@ -21,6 +21,7 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
         headers: {},
         body: JSON.stringify({
           prompt: prompt,
+          chat_history: chatTurns,
         }),
       },
     );
