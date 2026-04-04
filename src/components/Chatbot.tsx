@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { CHATBOT_CHAT_URL } from "../constants/api";
 import {
   CHAT_ERROR_FETCH,
@@ -31,14 +31,12 @@ const createChatTurn = (userPrompt: string, botResponse: string): ChatTurn => ({
   response: botResponse,
 });
 
-/* ── Icons ──────────────────────────────────────────────────── */
-
-const GearIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="3" />
-    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-  </svg>
-);
+const SAMPLE_PROMPTS = [
+  "I have a salary of 55,000/month. What home loan amount can I realistically afford?",
+  "Compare fixed vs floating interest rates for a first-time borrower in simple terms.",
+  "What documents should I prepare before applying for a personal loan?",
+  "My CIBIL score is 690. How can I improve my loan approval chances in 3 months?",
+];
 
 const SunIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -60,12 +58,6 @@ const MoonIcon = () => (
   </svg>
 );
 
-const PaperclipIcon = () => (
-  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
-  </svg>
-);
-
 const SendIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
     <line x1="22" y1="2" x2="11" y2="13" />
@@ -81,6 +73,7 @@ const Chatbot = () => {
   const [chatTurns, setChatTurns] = useState<ChatTurn[]>([]);
   const [currentPrompt, setCurrentPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -141,7 +134,12 @@ const Chatbot = () => {
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleUseSamplePrompt = (samplePrompt: string) => {
+    setPrompt(samplePrompt);
+    inputRef.current?.focus();
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSend();
@@ -152,108 +150,141 @@ const Chatbot = () => {
 
   return (
     <div className="chat-root" data-theme={isDark ? "dark" : "light"}>
-      <div className="chat-card">
-        {/* Header */}
-        <header className="chat-header">
-          <span className="chat-header-title">Aether Chat</span>
-          <div className="chat-header-controls">
-            <button className="icon-btn" aria-label="Settings">
-              <GearIcon />
-            </button>
-            <div className="theme-toggle" role="group" aria-label="Theme">
-              <button
-                className={`theme-btn${!isDark ? " active" : ""}`}
-                onClick={() => setIsDark(false)}
-                aria-label="Light mode"
-              >
-                <SunIcon />
-              </button>
-              <button
-                className={`theme-btn${isDark ? " active" : ""}`}
-                onClick={() => setIsDark(true)}
-                aria-label="Dark mode"
-              >
-                <MoonIcon />
-              </button>
+      <div className="chat-shell">
+        <aside className="info-panel">
+          <div className="info-content">
+            <h1 className="info-title">Loan Assistant</h1>
+            <p className="info-description">
+              Get fast, easy-to-understand guidance on loans, eligibility,
+              documentation, rates, repayment strategy, and credit readiness.
+              Ask in plain language and get practical, actionable answers.
+            </p>
+
+            <h2 className="info-heading">How to use</h2>
+            <ul className="info-list">
+              <li>Share your context (income, goal, timeline, and location).</li>
+              <li>Ask one focused question for better results.</li>
+              <li>Use follow-up questions to refine recommendations.</li>
+            </ul>
+
+            <h2 className="info-heading">Try one of these prompts</h2>
+            <div className="sample-prompts">
+              {SAMPLE_PROMPTS.map((samplePrompt) => (
+                <button
+                  key={samplePrompt}
+                  type="button"
+                  className="prompt-chip"
+                  onClick={() => handleUseSamplePrompt(samplePrompt)}
+                >
+                  {samplePrompt}
+                </button>
+              ))}
             </div>
           </div>
-        </header>
+        </aside>
 
-        {/* Messages */}
-        <div className="messages-area">
-          {!hasMessages && (
-            <div className="empty-state">
-              <div className="empty-state-icon">🧠</div>
-              <p>Ask me anything to get started.</p>
-            </div>
-          )}
-
-          {chatTurns.map((turn) => (
-            <div key={turn.id} className="chat-turn">
-              {/* User bubble */}
-              <div className="bubble-row user">
-                <div className="bubble">{turn.prompt}</div>
-              </div>
-              {/* Bot bubble */}
-              <div className="bubble-row bot">
-                <div className="avatar">🧠</div>
-                <div className="bubble">{turn.response}</div>
-              </div>
-            </div>
-          ))}
-
-          {/* Pending user message + loading dots */}
-          {currentPrompt && (
-            <div className="chat-turn">
-              <div className="bubble-row user">
-                <div className="bubble">{currentPrompt}</div>
-              </div>
-              <div className="bubble-row bot">
-                <div className="avatar">🧠</div>
-                <div className="bubble">
-                  <div className="loading-dots">
-                    <span /><span /><span />
-                  </div>
+        <section className="chat-panel">
+          <div className="chat-card">
+            {/* Header */}
+            <header className="chat-header">
+              <span className="chat-header-title">Loan Chatbot</span>
+              <div className="chat-header-controls">
+                <div className="theme-toggle" role="group" aria-label="Theme">
+                  <button
+                    className={`theme-btn${!isDark ? " active" : ""}`}
+                    onClick={() => setIsDark(false)}
+                    aria-label="Light mode"
+                  >
+                    <SunIcon />
+                  </button>
+                  <button
+                    className={`theme-btn${isDark ? " active" : ""}`}
+                    onClick={() => setIsDark(true)}
+                    aria-label="Dark mode"
+                  >
+                    <MoonIcon />
+                  </button>
                 </div>
               </div>
+            </header>
+
+            {/* Messages */}
+            <div className="messages-area">
+              {!hasMessages && (
+                <div className="empty-state">
+                  <div className="empty-state-icon">🧠</div>
+                  <p>Ask me anything to get started.</p>
+                </div>
+              )}
+
+              {chatTurns.map((turn) => (
+                <div key={turn.id} className="chat-turn">
+                  {/* User bubble */}
+                  <div className="bubble-row user">
+                    <div className="bubble">{turn.prompt}</div>
+                  </div>
+                  {/* Bot bubble */}
+                  <div className="bubble-row bot">
+                    <div className="avatar">🧠</div>
+                    <div className="bubble">{turn.response}</div>
+                  </div>
+                </div>
+              ))}
+
+              {/* Pending user message + loading dots */}
+              {currentPrompt && (
+                <div className="chat-turn">
+                  <div className="bubble-row user">
+                    <div className="bubble">{currentPrompt}</div>
+                  </div>
+                  <div className="bubble-row bot">
+                    <div className="avatar">🧠</div>
+                    <div className="bubble">
+                      <div className="loading-dots">
+                        <span />
+                        <span />
+                        <span />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div ref={messagesEndRef} />
             </div>
-          )}
 
-          <div ref={messagesEndRef} />
-        </div>
+            {/* Char counter */}
+            {prompt.length > 0 && (
+              <div className="char-count">
+                {prompt.length} / {PROMPT_MAX_LENGTH}
+              </div>
+            )}
 
-        {/* Char counter */}
-        {prompt.length > 0 && (
-          <div className="char-count">
-            {prompt.length} / {PROMPT_MAX_LENGTH}
+            {/* Input bar */}
+            <div className="input-bar">
+              <div className="input-field">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  maxLength={PROMPT_MAX_LENGTH}
+                  placeholder="How can I help you?"
+                  aria-label="Message input"
+                />
+              </div>
+              <button
+                className="send-btn"
+                onClick={handleSend}
+                disabled={isLoading || !prompt.trim()}
+                aria-label="Send message"
+              >
+                <SendIcon />
+              </button>
+            </div>
           </div>
-        )}
-
-        {/* Input bar */}
-        <div className="input-bar">
-          <div className="input-field">
-            <button className="attach-btn" aria-label="Attach file" tabIndex={-1}>
-              <PaperclipIcon />
-            </button>
-            <input
-              type="text"
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              onKeyDown={handleKeyDown}
-              maxLength={PROMPT_MAX_LENGTH}
-              placeholder="How can I help you?"
-              aria-label="Message input"
-            />
-          </div>
-          <button
-            className="send-btn"
-            onClick={handleSend}
-            disabled={isLoading || !prompt.trim()}
-            aria-label="Send message"
-          >
-            <SendIcon />
-          </button>
-        </div>
+        </section>
       </div>
     </div>
   );
