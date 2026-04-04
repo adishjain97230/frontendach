@@ -29,7 +29,7 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
     let response: Response;
     try {
       response = await fetch(
-        "http://13.236.109.109:8000/machine-learning/chatbot/chat/",
+        "https://backendach.duckdns.org/machine-learning/chatbot/chat/",
         {
           method: "POST",
           headers: {},
