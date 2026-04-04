@@ -1,0 +1,391 @@
+/* ── Theme tokens ─────────────────────────────────────────── */
+:root {
+  --transition: 0.25s ease;
+}
+
+[data-theme="dark"] {
+  --bg: #13131f;
+  --surface: #1e1e30;
+  --surface-hover: #26263a;
+  --border: #2e2e45;
+  --text-primary: #e8e8f0;
+  --text-secondary: #8888aa;
+  --user-bubble-bg: #4a7cf7;
+  --user-bubble-text: #ffffff;
+  --bot-bubble-bg: #2a2a40;
+  --bot-bubble-text: #ddddf0;
+  --avatar-bg: #3a3a55;
+  --input-bg: #252538;
+  --input-border: #3a3a55;
+  --input-text: #e8e8f0;
+  --input-placeholder: #666688;
+  --send-bg: #4a7cf7;
+  --send-hover: #3a6ce7;
+  --toggle-bg: #2e2e45;
+  --toggle-active-bg: #4a7cf7;
+  --toggle-text: #aaaacc;
+  --toggle-active-text: #ffffff;
+  --header-border: #2e2e45;
+  --scrollbar-thumb: #3a3a55;
+  --dot-color: #8888aa;
+}
+
+[data-theme="light"] {
+  --bg: #eef0f5;
+  --surface: #ffffff;
+  --surface-hover: #f5f6fa;
+  --border: #e0e2ea;
+  --text-primary: #1a1a2e;
+  --text-secondary: #6b6b8a;
+  --user-bubble-bg: #4a7cf7;
+  --user-bubble-text: #ffffff;
+  --bot-bubble-bg: #f0f1f8;
+  --bot-bubble-text: #1a1a2e;
+  --avatar-bg: #e0e2f0;
+  --input-bg: #f5f6fa;
+  --input-border: #dcdde8;
+  --input-text: #1a1a2e;
+  --input-placeholder: #9999b8;
+  --send-bg: #4a7cf7;
+  --send-hover: #3a6ce7;
+  --toggle-bg: #e8e9f2;
+  --toggle-active-bg: #4a7cf7;
+  --toggle-text: #7777a0;
+  --toggle-active-text: #ffffff;
+  --header-border: #e0e2ea;
+  --scrollbar-thumb: #ccced8;
+  --dot-color: #9999b8;
+}
+
+/* ── Reset ────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Root shell ───────────────────────────────────────────── */
+.chat-root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  background: var(--bg);
+  transition: background var(--transition), color var(--transition);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ── Card (center column) ─────────────────────────────────── */
+.chat-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  max-width: 780px;
+  margin: 0 auto;
+  background: var(--surface);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  transition: background var(--transition), box-shadow var(--transition);
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--header-border);
+  background: var(--surface);
+  flex-shrink: 0;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.chat-header-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  transition: color var(--transition);
+}
+
+.chat-header-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.icon-btn:hover {
+  background: var(--toggle-bg);
+  color: var(--text-primary);
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  background: var(--toggle-bg);
+  border-radius: 10px;
+  padding: 3px;
+  gap: 2px;
+  transition: background var(--transition);
+}
+
+.theme-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--toggle-text);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background var(--transition), color var(--transition);
+}
+
+.theme-btn.active {
+  background: var(--toggle-active-bg);
+  color: var(--toggle-active-text);
+}
+
+/* ── Messages area ────────────────────────────────────────── */
+.messages-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 24px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  scroll-behavior: smooth;
+}
+
+.messages-area::-webkit-scrollbar {
+  width: 5px;
+}
+
+.messages-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.messages-area::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 3px;
+}
+
+.chat-turn {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ── Bubble rows ──────────────────────────────────────────── */
+.bubble-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  max-width: 78%;
+}
+
+.bubble-row.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.bubble-row.bot {
+  align-self: flex-start;
+}
+
+/* ── Avatars ──────────────────────────────────────────────── */
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--avatar-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+  transition: background var(--transition);
+}
+
+/* ── Bubble text ──────────────────────────────────────────── */
+.bubble {
+  padding: 11px 16px;
+  border-radius: 18px;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  word-break: break-word;
+  transition: background var(--transition), color var(--transition);
+}
+
+.bubble-row.user .bubble {
+  background: var(--user-bubble-bg);
+  color: var(--user-bubble-text);
+  border-bottom-right-radius: 5px;
+}
+
+.bubble-row.bot .bubble {
+  background: var(--bot-bubble-bg);
+  color: var(--bot-bubble-text);
+  border-bottom-left-radius: 5px;
+}
+
+/* ── Loading dots ─────────────────────────────────────────── */
+.loading-dots {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 14px 18px;
+}
+
+.loading-dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--dot-color);
+  animation: dot-bounce 1.2s infinite ease-in-out;
+}
+
+.loading-dots span:nth-child(1) { animation-delay: 0s; }
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dot-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30%            { transform: translateY(-6px); opacity: 1; }
+}
+
+/* ── Empty state ──────────────────────────────────────────── */
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: var(--text-secondary);
+  user-select: none;
+  transition: color var(--transition);
+}
+
+.empty-state-icon {
+  font-size: 2.8rem;
+  opacity: 0.55;
+}
+
+.empty-state p {
+  font-size: 0.95rem;
+  opacity: 0.75;
+}
+
+/* ── Input bar ────────────────────────────────────────────── */
+.input-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  border-top: 1px solid var(--header-border);
+  background: var(--surface);
+  flex-shrink: 0;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.input-field {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: var(--input-bg);
+  border: 1.5px solid var(--input-border);
+  border-radius: 24px;
+  padding: 10px 16px;
+  gap: 10px;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.input-field:focus-within {
+  border-color: var(--send-bg);
+}
+
+.input-field input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.92rem;
+  color: var(--input-text);
+  transition: color var(--transition);
+}
+
+.input-field input::placeholder {
+  color: var(--input-placeholder);
+}
+
+.attach-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 6px;
+  transition: color var(--transition);
+}
+
+.attach-btn:hover {
+  color: var(--text-primary);
+}
+
+.send-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: var(--send-bg);
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background var(--transition), transform 0.1s;
+}
+
+.send-btn:hover:not(:disabled) {
+  background: var(--send-hover);
+  transform: scale(1.05);
+}
+
+.send-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── Char counter ─────────────────────────────────────────── */
+.char-count {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  padding: 0 4px 10px 24px;
+  transition: color var(--transition);
+}
