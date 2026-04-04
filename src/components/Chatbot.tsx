@@ -24,16 +24,20 @@ type ChatTurn = {
   response: string;
 };
 
+const createChatTurn = (userPrompt: string, botResponse: string): ChatTurn => ({
+  id: crypto.randomUUID(),
+  prompt: userPrompt,
+  response: botResponse,
+});
+
 const Chatbot = () => {
   const [prompt, setPrompt] = useState("");
   const [chatTurns, setChatTurns] = useState<ChatTurn[]>([]);
   const [currentPrompt, setCurrentPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const createChatTurn = (userPrompt: string, botResponse: string): ChatTurn => ({
-    id: crypto.randomUUID(),
-    prompt: userPrompt,
-    response: botResponse,
-  });
+  const addTurn = (userPrompt: string, botResponse: string) => {
+    setChatTurns((prev) => [...prev, createChatTurn(userPrompt, botResponse)]);
+  };
 
   const handleSend = async () => {
     if (!prompt.trim()) {
@@ -46,9 +50,8 @@ const Chatbot = () => {
     setPrompt("");
     setCurrentPrompt(userMessage);
 
-    let response: Response;
     try {
-      response = await fetch(CHATBOT_CHAT_URL, {
+      const response = await fetch(CHATBOT_CHAT_URL, {
         method: "POST",
         headers: {},
         body: JSON.stringify({
@@ -56,73 +59,50 @@ const Chatbot = () => {
           chat_history: chatTurns.slice(-CHAT_HISTORY_MAX_TURNS),
         }),
       });
+
+      if (!response.ok) {
+        addTurn(userMessage, CHAT_ERROR_FETCH);
+        return;
+      }
+
+      let data: unknown;
+      try {
+        data = await response.json();
+      } catch (error) {
+        console.error(error);
+        addTurn(userMessage, CHAT_ERROR_PARSE);
+        return;
+      }
+
+      if (!isChatApiPayload(data)) {
+        addTurn(userMessage, CHAT_ERROR_INVALID);
+        return;
+      }
+
+      addTurn(userMessage, data.response);
     } catch (error) {
       console.error(error);
+      addTurn(userMessage, CHAT_ERROR_FETCH);
+    } finally {
       setCurrentPrompt("");
-      setChatTurns((prev) => [
-        ...prev,
-        createChatTurn(userMessage, CHAT_ERROR_FETCH),
-      ]);
       setIsLoading(false);
-      return;
     }
-    if (!response.ok) {
-      setCurrentPrompt("");
-      setChatTurns((prev) => [
-        ...prev,
-        createChatTurn(userMessage, CHAT_ERROR_FETCH),
-      ]);
-      setIsLoading(false);
-      return;
-    }
-    let data: unknown;
-    try {
-      data = await response.json();
-    } catch (error) {
-      console.error(error);
-      setCurrentPrompt("");
-      setChatTurns((prev) => [
-        ...prev,
-        createChatTurn(userMessage, CHAT_ERROR_PARSE),
-      ]);
-      setIsLoading(false);
-      return;
-    }
-
-    if (!isChatApiPayload(data)) {
-      setCurrentPrompt("");
-      setChatTurns((prev) => [
-        ...prev,
-        createChatTurn(userMessage, CHAT_ERROR_INVALID),
-      ]);
-      setIsLoading(false);
-      return;
-    }
-
-    setCurrentPrompt("");
-    setChatTurns((prev) => [
-      ...prev,
-      createChatTurn(userMessage, data.response),
-    ]);
-    setIsLoading(false);
   };
 
   return (
     <>
       {/* <label htmlFor="msg">Enter your prompt</label> */}
       <ul>
-        {chatTurns.map((turn) => {
-          return (
-            <li key={turn.id}>
-              <div>
-                <strong>You:</strong> {turn.prompt}
-              </div>
-              <div>
-                <strong>Bot:</strong> {turn.response}
-              </div>
-            </li>
-          );
-        })}
+        {chatTurns.map((turn) => (
+          <li key={turn.id}>
+            <div>
+              <strong>You:</strong> {turn.prompt}
+            </div>
+            <div>
+              <strong>Bot:</strong> {turn.response}
+            </div>
+          </li>
+        ))}
         {currentPrompt && (
           <li>
             <div>
