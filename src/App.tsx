@@ -2,10 +2,8 @@
 import "bootstrap/dist/css/bootstrap.css";
 // import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Chatbot from "./components/Chatbot";
-import { useState } from "react";
 
 function App() {
-  const [prompt, setPrompt] = useState("");
   return (
     <>
       <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
@@ -20,7 +18,7 @@ function App() {
             overflow: "auto",
           }}
         >
-          <Chatbot prompt={prompt} setPrompt={setPrompt} />
+          <Chatbot />
         </aside>
       </div>
     </>

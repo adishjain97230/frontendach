@@ -18,20 +18,22 @@ const isChatApiPayload = (value: unknown): value is ChatApiPayload =>
   "response" in value &&
   typeof (value as { response?: unknown }).response === "string";
 
-interface ChatbotProps {
-  prompt: string;
-  setPrompt: React.Dispatch<React.SetStateAction<string>>;
-}
-
 type ChatTurn = {
+  id: string;
   prompt: string;
   response: string;
 };
 
-const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
+const Chatbot = () => {
+  const [prompt, setPrompt] = useState("");
   const [chatTurns, setChatTurns] = useState<ChatTurn[]>([]);
   const [currentPrompt, setCurrentPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const createChatTurn = (userPrompt: string, botResponse: string): ChatTurn => ({
+    id: crypto.randomUUID(),
+    prompt: userPrompt,
+    response: botResponse,
+  });
 
   const handleSend = async () => {
     if (!prompt.trim()) {
@@ -59,7 +61,7 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
       setCurrentPrompt("");
       setChatTurns((prev) => [
         ...prev,
-        { prompt: userMessage, response: CHAT_ERROR_FETCH },
+        createChatTurn(userMessage, CHAT_ERROR_FETCH),
       ]);
       setIsLoading(false);
       return;
@@ -68,7 +70,7 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
       setCurrentPrompt("");
       setChatTurns((prev) => [
         ...prev,
-        { prompt: userMessage, response: CHAT_ERROR_FETCH },
+        createChatTurn(userMessage, CHAT_ERROR_FETCH),
       ]);
       setIsLoading(false);
       return;
@@ -81,7 +83,7 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
       setCurrentPrompt("");
       setChatTurns((prev) => [
         ...prev,
-        { prompt: userMessage, response: CHAT_ERROR_PARSE },
+        createChatTurn(userMessage, CHAT_ERROR_PARSE),
       ]);
       setIsLoading(false);
       return;
@@ -91,7 +93,7 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
       setCurrentPrompt("");
       setChatTurns((prev) => [
         ...prev,
-        { prompt: userMessage, response: CHAT_ERROR_INVALID },
+        createChatTurn(userMessage, CHAT_ERROR_INVALID),
       ]);
       setIsLoading(false);
       return;
@@ -100,7 +102,7 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
     setCurrentPrompt("");
     setChatTurns((prev) => [
       ...prev,
-      { prompt: userMessage, response: data.response },
+      createChatTurn(userMessage, data.response),
     ]);
     setIsLoading(false);
   };
@@ -109,9 +111,9 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
     <>
       {/* <label htmlFor="msg">Enter your prompt</label> */}
       <ul>
-        {chatTurns.map((turn, i) => {
+        {chatTurns.map((turn) => {
           return (
-            <li key={i}>
+            <li key={turn.id}>
               <div>
                 <strong>You:</strong> {turn.prompt}
               </div>
