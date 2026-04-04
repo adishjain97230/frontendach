@@ -38,6 +38,14 @@ const SAMPLE_PROMPTS = [
   "Hi, I just started a new position 6 months ago making $55k annually. I'm trying to consolidate some debt, about $15,000 total. I have a mortgage on a condo. I'd prefer to spread the payments out over 36 months if possible. What do you think?",
 ];
 
+const CONTACT_LINKS = {
+  frontendRepo: "https://github.com/your-username/frontend-repo",
+  backendRepo: "https://github.com/your-username/backend-repo",
+  linkedIn: "https://www.linkedin.com/in/your-profile",
+  email: "you@example.com",
+  phone: "+1 000-000-0000",
+};
+
 const SunIcon = () => (
   <svg
     width="16"
@@ -183,35 +191,78 @@ const Chatbot = () => {
       <div className="chat-shell">
         <aside className="info-panel">
           <div className="info-content">
-            <h1 className="info-title">Loan Assistant</h1>
-            <p className="info-description">
-              Get fast, easy-to-understand guidance on loans, eligibility,
-              documentation, rates, repayment strategy, and credit readiness.
-              Ask in plain language and get practical, actionable answers.
-            </p>
+            <div className="info-main">
+              <h1 className="info-title">Loan Assistant</h1>
+              <p className="info-description">
+                Get fast, easy-to-understand guidance on loans, eligibility,
+                documentation, rates, repayment strategy, and credit readiness.
+                Ask in plain language and get practical, actionable answers.
+              </p>
 
-            <h2 className="info-heading">How to use</h2>
-            <ul className="info-list">
-              <li>
-                Share your context (income, goal, timeline, and location).
-              </li>
-              <li>Ask one focused question for better results.</li>
-              <li>Use follow-up questions to refine recommendations.</li>
-            </ul>
+              <h2 className="info-heading">How to use</h2>
+              <ul className="info-list">
+                <li>
+                  Share your context (income, goal, timeline, and location).
+                </li>
+                <li>Ask one focused question for better results.</li>
+                <li>Use follow-up questions to refine recommendations.</li>
+              </ul>
 
-            <h2 className="info-heading">Try one of these prompts</h2>
-            <div className="sample-prompts">
-              {SAMPLE_PROMPTS.map((samplePrompt) => (
-                <button
-                  key={samplePrompt}
-                  type="button"
-                  className="prompt-chip"
-                  onClick={() => handleUseSamplePrompt(samplePrompt)}
-                >
-                  {samplePrompt}
-                </button>
-              ))}
+              <h2 className="info-heading">Try one of these prompts</h2>
+              <div className="sample-prompts">
+                {SAMPLE_PROMPTS.map((samplePrompt) => (
+                  <button
+                    key={samplePrompt}
+                    type="button"
+                    className="prompt-chip"
+                    onClick={() => handleUseSamplePrompt(samplePrompt)}
+                  >
+                    {samplePrompt}
+                  </button>
+                ))}
+              </div>
             </div>
+
+            <section className="info-footer" aria-label="Project and contact links">
+              <h3 className="contact-title">Connect</h3>
+              <div className="contact-grid">
+                <a
+                  className="contact-link"
+                  href={CONTACT_LINKS.frontendRepo}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span className="contact-label">Frontend Repo</span>
+                  <span className="contact-value">github.com/your-username/frontend-repo</span>
+                </a>
+                <a
+                  className="contact-link"
+                  href={CONTACT_LINKS.backendRepo}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span className="contact-label">Backend Repo</span>
+                  <span className="contact-value">github.com/your-username/backend-repo</span>
+                </a>
+                <a
+                  className="contact-link"
+                  href={CONTACT_LINKS.linkedIn}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span className="contact-label">LinkedIn</span>
+                  <span className="contact-value">linkedin.com/in/your-profile</span>
+                </a>
+                <a className="contact-link" href={`mailto:${CONTACT_LINKS.email}`}>
+                  <span className="contact-label">Email</span>
+                  <span className="contact-value">{CONTACT_LINKS.email}</span>
+                </a>
+                <a className="contact-link" href={`tel:${CONTACT_LINKS.phone.replaceAll(" ", "")}`}>
+                  <span className="contact-label">Mobile</span>
+                  <span className="contact-value">{CONTACT_LINKS.phone}</span>
+                </a>
+              </div>
+            </section>
           </div>
         </aside>
 
