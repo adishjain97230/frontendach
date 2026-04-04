@@ -32,14 +32,23 @@ const createChatTurn = (userPrompt: string, botResponse: string): ChatTurn => ({
 });
 
 const SAMPLE_PROMPTS = [
-  "I have a salary of 55,000/month. What home loan amount can I realistically afford?",
-  "Compare fixed vs floating interest rates for a first-time borrower in simple terms.",
-  "What documents should I prepare before applying for a personal loan?",
-  "My CIBIL score is 690. How can I improve my loan approval chances in 3 months?",
+  "hey man, i really need some help. i'm tryin to get 8500 bucks to fix up my truck and pay off some cards. i make about 3200 a month workin construction, been there for like 4 years now. i'm rentin a small place right now. you think they're gonna let me have the money for like 30 years?",
+  "I got hit with a huge medical bill and need $12,000 as soon as possible. I've been at my current job for 12 years and make $95,000 a year. I own my home outright. Can I pay this back over 5 years?",
+  "I'm looking to get a loan for $3,500 to buy some new equipment for my side business. I'm currently renting an apartment and my take-home pay is exactly $2,800 every month. I've been doing this for about 2 years. Is a 24-month plan okay for someone like me?",
+  "Hi, I just started a new position 6 months ago making $55k annually. I'm trying to consolidate some debt, about $15,000 total. I have a mortgage on a condo. I'd prefer to spread the payments out over 36 months if possible. What do you think?",
 ];
 
 const SunIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <circle cx="12" cy="12" r="5" />
     <line x1="12" y1="1" x2="12" y2="3" />
     <line x1="12" y1="21" x2="12" y2="23" />
@@ -53,13 +62,31 @@ const SunIcon = () => (
 );
 
 const MoonIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
   </svg>
 );
 
 const SendIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <line x1="22" y1="2" x2="11" y2="13" />
     <polygon points="22 2 15 22 11 13 2 9 22 2" />
   </svg>
@@ -77,7 +104,10 @@ const Chatbot = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+    document.documentElement.setAttribute(
+      "data-theme",
+      isDark ? "dark" : "light",
+    );
   }, [isDark]);
 
   useEffect(() => {
@@ -162,7 +192,9 @@ const Chatbot = () => {
 
             <h2 className="info-heading">How to use</h2>
             <ul className="info-list">
-              <li>Share your context (income, goal, timeline, and location).</li>
+              <li>
+                Share your context (income, goal, timeline, and location).
+              </li>
               <li>Ask one focused question for better results.</li>
               <li>Use follow-up questions to refine recommendations.</li>
             </ul>
