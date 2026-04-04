@@ -39,11 +39,11 @@ const SAMPLE_PROMPTS = [
 ];
 
 const CONTACT_LINKS = {
-  frontendRepo: "https://github.com/your-username/frontend-repo",
-  backendRepo: "https://github.com/your-username/backend-repo",
-  linkedIn: "https://www.linkedin.com/in/your-profile",
-  email: "you@example.com",
-  phone: "+1 000-000-0000",
+  frontendRepo: "https://github.com/adishjain97230/frontendach",
+  backendRepo: "https://github.com/adishjain97230/Credit_Assessment_Service",
+  linkedIn: "https://www.linkedin.com/in/adish-jain-7373b3229/",
+  email: "adishjain9723@gmail.com",
+  phone: "+91 84275-18614",
 };
 
 const SunIcon = () => (
@@ -223,7 +223,10 @@ const Chatbot = () => {
               </div>
             </div>
 
-            <section className="info-footer" aria-label="Project and contact links">
+            <section
+              className="info-footer"
+              aria-label="Project and contact links"
+            >
               <h3 className="contact-title">Connect</h3>
               <div className="contact-grid">
                 <a
@@ -250,11 +253,17 @@ const Chatbot = () => {
                 >
                   <span className="contact-label">LinkedIn</span>
                 </a>
-                <a className="contact-link" href={`mailto:${CONTACT_LINKS.email}`}>
-                  <span className="contact-label">Email</span>
+                <a
+                  className="contact-link"
+                  href={`mailto:${CONTACT_LINKS.email}`}
+                >
+                  <span className="contact-label">{CONTACT_LINKS.email}</span>
                 </a>
-                <a className="contact-link" href={`tel:${CONTACT_LINKS.phone.replaceAll(" ", "")}`}>
-                  <span className="contact-label">Mobile</span>
+                <a
+                  className="contact-link"
+                  href={`tel:${CONTACT_LINKS.phone.replaceAll(" ", "")}`}
+                >
+                  <span className="contact-label">{CONTACT_LINKS.phone}</span>
                 </a>
               </div>
             </section>
