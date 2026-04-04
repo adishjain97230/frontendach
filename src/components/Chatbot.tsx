@@ -8,6 +8,16 @@ import {
   PROMPT_MAX_LENGTH,
 } from "../constants/chatbot";
 
+type ChatApiPayload = {
+  response: string;
+};
+
+const isChatApiPayload = (value: unknown): value is ChatApiPayload =>
+  typeof value === "object" &&
+  value !== null &&
+  "response" in value &&
+  typeof (value as { response?: unknown }).response === "string";
+
 interface ChatbotProps {
   prompt: string;
   setPrompt: React.Dispatch<React.SetStateAction<string>>;
@@ -63,7 +73,7 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
       setIsLoading(false);
       return;
     }
-    let data: any;
+    let data: unknown;
     try {
       data = await response.json();
     } catch (error) {
@@ -77,12 +87,7 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
       return;
     }
 
-    if (
-      data === null ||
-      typeof data !== "object" ||
-      !("response" in data) ||
-      typeof (data as { response?: unknown }).response !== "string"
-    ) {
+    if (!isChatApiPayload(data)) {
       setCurrentPrompt("");
       setChatTurns((prev) => [
         ...prev,
