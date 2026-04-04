@@ -233,7 +233,6 @@ const Chatbot = () => {
                   rel="noreferrer"
                 >
                   <span className="contact-label">Frontend Repo</span>
-                  <span className="contact-value">github.com/your-username/frontend-repo</span>
                 </a>
                 <a
                   className="contact-link"
@@ -242,7 +241,6 @@ const Chatbot = () => {
                   rel="noreferrer"
                 >
                   <span className="contact-label">Backend Repo</span>
-                  <span className="contact-value">github.com/your-username/backend-repo</span>
                 </a>
                 <a
                   className="contact-link"
@@ -251,15 +249,12 @@ const Chatbot = () => {
                   rel="noreferrer"
                 >
                   <span className="contact-label">LinkedIn</span>
-                  <span className="contact-value">linkedin.com/in/your-profile</span>
                 </a>
                 <a className="contact-link" href={`mailto:${CONTACT_LINKS.email}`}>
                   <span className="contact-label">Email</span>
-                  <span className="contact-value">{CONTACT_LINKS.email}</span>
                 </a>
                 <a className="contact-link" href={`tel:${CONTACT_LINKS.phone.replaceAll(" ", "")}`}>
                   <span className="contact-label">Mobile</span>
-                  <span className="contact-value">{CONTACT_LINKS.phone}</span>
                 </a>
               </div>
             </section>
