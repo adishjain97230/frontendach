@@ -46,6 +46,18 @@ const CONTACT_LINKS = {
   phone: "+91 84275-18614",
 };
 
+const TECH_STACK = [
+  { name: "Python", icon: "https://cdn.simpleicons.org/python/3776AB" },
+  { name: "Django", icon: "https://cdn.simpleicons.org/django/092E20" },
+  { name: "Redis", icon: "https://cdn.simpleicons.org/redis/DC382D" },
+  { name: "Nginx", icon: "https://cdn.simpleicons.org/nginx/009639" },
+  { name: "React", icon: "https://cdn.simpleicons.org/react/61DAFB" },
+  { name: "TypeScript", icon: "https://cdn.simpleicons.org/typescript/3178C6" },
+  { name: "AWS", icon: "https://cdn.simpleicons.org/amazonwebservices/FF9900" },
+  { name: "Docker", icon: "https://cdn.simpleicons.org/docker/2496ED" },
+  { name: "ASGI", icon: "https://cdn.simpleicons.org/uvicorn/4B8BBE" },
+];
+
 const SunIcon = () => (
   <svg
     width="16"
@@ -283,6 +295,23 @@ const Chatbot = () => {
                 >
                   <span className="contact-label">{CONTACT_LINKS.phone}</span>
                 </a>
+              </div>
+
+              <div className="tech-stack" aria-label="Technologies used">
+                <h4 className="tech-title">Built with</h4>
+                <div className="tech-list">
+                  {TECH_STACK.map((tech) => (
+                    <span key={tech.name} className="tech-pill" title={tech.name}>
+                      <img
+                        src={tech.icon}
+                        alt={tech.name}
+                        className="tech-icon"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </span>
+                  ))}
+                </div>
               </div>
             </section>
           </div>

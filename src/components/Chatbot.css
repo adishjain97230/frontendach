@@ -260,6 +260,50 @@
   font-weight: 600;
 }
 
+.tech-stack {
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--contact-card-border);
+}
+
+.tech-title {
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  color: var(--text-secondary);
+  margin-bottom: 7px;
+}
+
+.tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tech-pill {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  border: 1px solid var(--contact-card-border);
+  background: var(--contact-link-bg);
+  transition: transform 0.12s, border-color var(--transition),
+    background var(--transition);
+}
+
+.tech-pill:hover {
+  transform: translateY(-1px);
+  border-color: var(--toggle-active-bg);
+  background: var(--contact-link-hover);
+}
+
+.tech-icon {
+  width: 13px;
+  height: 13px;
+  display: block;
+}
+
 /* ── Right panel ──────────────────────────────────────────── */
 .chat-panel {
   width: 60%;
