@@ -53,9 +53,8 @@ const TECH_STACK = [
   { name: "Nginx", icon: "https://cdn.simpleicons.org/nginx/009639" },
   { name: "React", icon: "https://cdn.simpleicons.org/react/61DAFB" },
   { name: "TypeScript", icon: "https://cdn.simpleicons.org/typescript/3178C6" },
-  { name: "AWS", icon: "https://cdn.simpleicons.org/amazonwebservices/FF9900" },
+  { name: "AWS", icon: "https://www.vectorlogo.zone/logos/amazon_aws/amazon_aws-icon.svg" },
   { name: "Docker", icon: "https://cdn.simpleicons.org/docker/2496ED" },
-  { name: "ASGI", icon: "https://cdn.simpleicons.org/uvicorn/4B8BBE" },
 ];
 
 const SunIcon = () => (
@@ -301,7 +300,12 @@ const Chatbot = () => {
                 <h4 className="tech-title">Built with</h4>
                 <div className="tech-list">
                   {TECH_STACK.map((tech) => (
-                    <span key={tech.name} className="tech-pill" title={tech.name}>
+                    <span
+                      key={tech.name}
+                      className="tech-pill"
+                      title={tech.name}
+                      data-tech={tech.name.toLowerCase()}
+                    >
                       <img
                         src={tech.icon}
                         alt={tech.name}
