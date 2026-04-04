@@ -1,4 +1,12 @@
 import { useState } from "react";
+import { CHATBOT_CHAT_URL } from "../constants/api";
+import {
+  CHAT_ERROR_FETCH,
+  CHAT_ERROR_INVALID,
+  CHAT_ERROR_PARSE,
+  CHAT_HISTORY_MAX_TURNS,
+  PROMPT_MAX_LENGTH,
+} from "../constants/chatbot";
 
 interface ChatbotProps {
   prompt: string;
@@ -28,23 +36,20 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
 
     let response: Response;
     try {
-      response = await fetch(
-        "https://backendach.duckdns.org/machine-learning/chatbot/chat/",
-        {
-          method: "POST",
-          headers: {},
-          body: JSON.stringify({
-            prompt: userMessage,
-            chat_history: chatTurns.slice(-10),
-          }),
-        },
-      );
+      response = await fetch(CHATBOT_CHAT_URL, {
+        method: "POST",
+        headers: {},
+        body: JSON.stringify({
+          prompt: userMessage,
+          chat_history: chatTurns.slice(-CHAT_HISTORY_MAX_TURNS),
+        }),
+      });
     } catch (error) {
       console.error(error);
       setCurrentPrompt("");
       setChatTurns((prev) => [
         ...prev,
-        { prompt: userMessage, response: "Error fetching response..." },
+        { prompt: userMessage, response: CHAT_ERROR_FETCH },
       ]);
       setIsLoading(false);
       return;
@@ -53,7 +58,7 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
       setCurrentPrompt("");
       setChatTurns((prev) => [
         ...prev,
-        { prompt: userMessage, response: "Error fetching response..." },
+        { prompt: userMessage, response: CHAT_ERROR_FETCH },
       ]);
       setIsLoading(false);
       return;
@@ -66,7 +71,7 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
       setCurrentPrompt("");
       setChatTurns((prev) => [
         ...prev,
-        { prompt: userMessage, response: "Error parsing response..." },
+        { prompt: userMessage, response: CHAT_ERROR_PARSE },
       ]);
       setIsLoading(false);
       return;
@@ -81,7 +86,7 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
       setCurrentPrompt("");
       setChatTurns((prev) => [
         ...prev,
-        { prompt: userMessage, response: "Invalid response from server..." },
+        { prompt: userMessage, response: CHAT_ERROR_INVALID },
       ]);
       setIsLoading(false);
       return;
@@ -128,11 +133,13 @@ const Chatbot = ({ prompt, setPrompt }: ChatbotProps) => {
         // type="text"
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
-        maxLength={2000}
+        maxLength={PROMPT_MAX_LENGTH}
         rows={3}
         placeholder="Type something.."
       />
-      <p>{prompt.length} / 2000</p>
+      <p>
+        {prompt.length} / {PROMPT_MAX_LENGTH}
+      </p>
       <button
         type="button"
         className="btn btn-primary"
