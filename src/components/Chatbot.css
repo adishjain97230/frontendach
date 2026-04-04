@@ -225,6 +225,21 @@
     transform 0.1s;
 }
 
+.contact-link-repo {
+  text-align: left;
+}
+
+.contact-link-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.contact-link-row svg {
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
 .contact-link:hover {
   background: var(--contact-link-hover);
   border-color: var(--toggle-active-bg);
