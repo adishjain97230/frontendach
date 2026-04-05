@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./ProjectsPage.css";
-import loanChatbotDark from "../assets/loan-chatbot-dark.png";
-import loanChatbotLight from "../assets/loan-chatbot-light.png";
 
 const PROFILE = {
   name: "Adish Jain",
@@ -60,7 +58,10 @@ const PROJECTS = [
       "Implemented model-backed scoring pipeline and service orchestration.",
       "Optimized reliability with Redis caching and containerized deployment.",
     ],
-    screenshots: [loanChatbotDark, loanChatbotLight],
+    screenshots: [
+      "https://placehold.co/1200x720/101726/d1dcff?text=Risk+Dashboard",
+      "https://placehold.co/1200x720/0f1320/c4d1ff?text=API+and+Service+Layer",
+    ],
     stack: ["Django", "Redis", "Nginx", "Docker", "AWS"],
     repoLinks: [
       {
