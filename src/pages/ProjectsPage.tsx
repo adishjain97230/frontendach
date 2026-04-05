@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./ProjectsPage.css";
+import loanChatbotDark from "../assets/loan-chatbot-dark.png";
+import loanChatbotLight from "../assets/loan-chatbot-light.png";
 
 const PROFILE = {
   name: "Adish Jain",
@@ -12,8 +14,31 @@ const PROJECTS = [
   {
     title: "Loan Approval Chatbot",
     description:
-      "A modern chatbot experience for loan eligibility guidance and Q&A, with dark/light themes and curated prompts.",
-    stack: ["React", "TypeScript", "Python", "Django"],
+      "End-to-end loan decisioning: a trained ML classifier predicts approval vs. rejection from applicant and loan features, exposed through APIs. On top of that, an agentic chat assistant lets you ask natural-language questions; the agent invokes the right tools (including the model-backed endpoints) so answers stay grounded in your scoring logic.",
+    highlights: [
+      "Trained an ML classifier on 1M+ records to predict loan approval from applicant and loan inputs with 92% accuracy, exposed through backend APIs.",
+      "Built an agentic chat assistant that calls tools (including model-backed endpoints) so replies stay grounded in scoring logic.",
+      "Deployed the backend on AWS EC2 with nginx as a reverse proxy and Docker for containerization.",
+      "Shipped a React/TypeScript UI with dark/light themes and solid UX for loading, errors, and follow-up prompts.",
+    ],
+    screenshots: [
+      "https://placehold.co/1200x720/0f1220/cdd6ff?text=Loan+Chatbot+UI",
+      "https://placehold.co/1200x720/131a2f/d6e2ff?text=Loan+Chatbot+Conversation",
+    ],
+    stack: [
+      "LangChain",
+      "LangGraph",
+      "Agentic AI",
+      "Django",
+      "Redis",
+      "Docker",
+      "AWS",
+      "Scikit-learn",
+      "Numpy",
+      "Pandas",
+      "React",
+      "TypeScript",
+    ],
     websiteUrl: "/ml-chatbot",
     repoLinks: [
       {
@@ -30,6 +55,12 @@ const PROJECTS = [
     title: "Credit Assessment Service",
     description:
       "Backend service for credit-risk workflows, model-backed scoring logic, and API-first integration for frontend clients.",
+    highlights: [
+      "Designed risk-evaluation APIs for real-time frontend usage.",
+      "Implemented model-backed scoring pipeline and service orchestration.",
+      "Optimized reliability with Redis caching and containerized deployment.",
+    ],
+    screenshots: [loanChatbotDark, loanChatbotLight],
     stack: ["Django", "Redis", "Nginx", "Docker", "AWS"],
     repoLinks: [
       {
@@ -38,43 +69,38 @@ const PROJECTS = [
       },
     ],
   },
-  {
-    title: "More Projects",
-    description:
-      "A growing collection of ML + product projects, from model-serving APIs to polished frontend experiences.",
-    stack: ["Python", "React", "TypeScript", "Docker"],
-    repoLinks: [
-      {
-        label: "GitHub Repo",
-        href: "https://github.com/adishjain97230",
-      },
-    ],
-  },
 ];
 
 const TECHNOLOGIES = [
-  { name: "Python", icon: "https://cdn.simpleicons.org/python/3776AB" },
-  { name: "Django", icon: "https://cdn.simpleicons.org/django/092E20" },
-  { name: "Redis", icon: "https://cdn.simpleicons.org/redis/DC382D" },
-  { name: "Nginx", icon: "https://cdn.simpleicons.org/nginx/009639" },
   { name: "React", icon: "https://cdn.simpleicons.org/react/61DAFB" },
-  { name: "TypeScript", icon: "https://cdn.simpleicons.org/typescript/3178C6" },
-  { name: "Golang", icon: "https://cdn.simpleicons.org/go/00ADD8" },
   { name: "Java", icon: "https://cdn.simpleicons.org/openjdk/ED8B00" },
-  { name: "MySQL", icon: "https://cdn.simpleicons.org/mysql/4479A1" },
-  { name: "MongoDB", icon: "https://cdn.simpleicons.org/mongodb/47A248" },
-  { name: "Git", icon: "https://cdn.simpleicons.org/git/F05032" },
-  { name: "GitHub", icon: "https://cdn.simpleicons.org/github/6E7681" },
-  { name: "LangChain", icon: "https://cdn.simpleicons.org/langchain/1C3C3C" },
-  { name: "LangGraph", short: "LG" },
-  { name: "scikit-learn", icon: "https://cdn.simpleicons.org/scikitlearn/F7931E" },
-  { name: "NumPy", icon: "https://cdn.simpleicons.org/numpy/013243" },
-  { name: "Pandas", icon: "https://cdn.simpleicons.org/pandas/150458" },
+  { name: "Python", icon: "https://cdn.simpleicons.org/python/3776AB" },
+  {
+    name: "Spring Boot",
+    icon: "https://cdn.simpleicons.org/springboot/6DB33F",
+  },
+  { name: "TypeScript", icon: "https://cdn.simpleicons.org/typescript/3178C6" },
   {
     name: "AWS",
     icon: "https://www.vectorlogo.zone/logos/amazon_aws/amazon_aws-icon.svg",
   },
   { name: "Docker", icon: "https://cdn.simpleicons.org/docker/2496ED" },
+  { name: "Git", icon: "https://cdn.simpleicons.org/git/F05032" },
+  { name: "GitHub", icon: "https://cdn.simpleicons.org/github/6E7681" },
+  { name: "MySQL", icon: "https://cdn.simpleicons.org/mysql/4479A1" },
+  { name: "MongoDB", icon: "https://cdn.simpleicons.org/mongodb/47A248" },
+  { name: "Redis", icon: "https://cdn.simpleicons.org/redis/DC382D" },
+  { name: "Nginx", icon: "https://cdn.simpleicons.org/nginx/009639" },
+  { name: "Pandas", icon: "https://cdn.simpleicons.org/pandas/150458" },
+  { name: "NumPy", icon: "https://cdn.simpleicons.org/numpy/013243" },
+  {
+    name: "scikit-learn",
+    icon: "https://cdn.simpleicons.org/scikitlearn/F7931E",
+  },
+  { name: "Golang", icon: "https://cdn.simpleicons.org/go/00ADD8" },
+  { name: "Django", icon: "https://cdn.simpleicons.org/django/092E20" },
+  { name: "LangChain", icon: "https://cdn.simpleicons.org/langchain/1C3C3C" },
+  { name: "LangGraph", short: "LG" },
   { name: "ASGI", icon: "https://cdn.simpleicons.org/fastapi/009688" },
 ];
 
@@ -154,7 +180,10 @@ export default function ProjectsPage() {
   const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+    document.documentElement.setAttribute(
+      "data-theme",
+      isDark ? "dark" : "light",
+    );
   }, [isDark]);
 
   const openProject = (project: (typeof PROJECTS)[number]) => {
@@ -178,7 +207,11 @@ export default function ProjectsPage() {
             <p>{PROFILE.tagline}</p>
           </div>
           <div className="hero-side">
-            <div className="project-theme-toggle" role="group" aria-label="Theme toggle">
+            <div
+              className="project-theme-toggle"
+              role="group"
+              aria-label="Theme toggle"
+            >
               <button
                 type="button"
                 className={`project-theme-btn ${!isDark ? "active" : ""}`}
@@ -209,7 +242,7 @@ export default function ProjectsPage() {
           <div className="projects-scroll">
             <div className="projects-grid">
               {PROJECTS.map((project) => (
-                <article
+                <div
                   key={project.title}
                   className="project-card project-card-clickable"
                   role="button"
@@ -223,7 +256,27 @@ export default function ProjectsPage() {
                   }}
                 >
                   <h3>{project.title}</h3>
+
+                  <div className="project-screenshots">
+                    {project.screenshots.map((screenshot) => (
+                      <img
+                        key={`${project.title}-${screenshot}`}
+                        src={screenshot}
+                        alt={`${project.title} screenshot`}
+                        className="project-shot"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ))}
+                  </div>
+
                   <p>{project.description}</p>
+                  <ul className="project-highlights">
+                    {project.highlights.map((highlight) => (
+                      <li key={`${project.title}-${highlight}`}>{highlight}</li>
+                    ))}
+                  </ul>
+
                   <div className="chip-row">
                     {project.stack.map((item) => (
                       <span key={`${project.title}-${item}`} className="chip">
@@ -247,10 +300,13 @@ export default function ProjectsPage() {
                       </a>
                     ))}
                   </div>
-                </article>
+                </div>
               ))}
             </div>
           </div>
+          <Link to="/projects" className="projects-more-link">
+            View all projects
+          </Link>
         </section>
 
         <section className="section-block">
@@ -268,7 +324,9 @@ export default function ProjectsPage() {
                       decoding="async"
                     />
                   ) : (
-                    <span className="tech-logo-fallback">{tech.short ?? "T"}</span>
+                    <span className="tech-logo-fallback">
+                      {tech.short ?? "T"}
+                    </span>
                   )}
                   <span>{tech.name}</span>
                 </span>
