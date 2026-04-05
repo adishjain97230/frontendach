@@ -30,6 +30,16 @@
   min-height: 100vh;
   background: var(--bg);
   color: var(--text-primary);
+  font-family:
+    "Inter",
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   padding: 30px 18px;
   overflow-x: hidden;
 }
@@ -201,7 +211,7 @@
   background: var(--surface-alt);
   padding: 14px;
   display: grid;
-  gap: 12px;
+  gap: 10px;
   min-height: 420px;
   position: relative;
 }
@@ -237,15 +247,21 @@
 
 .project-card h3 {
   margin: 0;
-  font-size: 2rem;
-  line-height: 1.2;
+  font-size: clamp(1.35rem, 2.1vw, 1.85rem);
+  line-height: 1.25;
+  letter-spacing: 0.01em;
 }
 
 .project-card p {
   margin: 0;
   color: var(--text-secondary);
-  font-size: 1rem;
-  line-height: 1.45;
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
+.project-description {
+  max-width: 72ch;
+  text-wrap: pretty;
 }
 
 .project-label {
@@ -280,12 +296,14 @@
   margin: 0;
   padding-left: 18px;
   display: grid;
-  gap: 4px;
+  gap: 6px;
   color: var(--text-primary);
+  font-size: 0.95rem;
 }
 
 .project-highlights li {
-  line-height: 1.4;
+  line-height: 1.55;
+  color: var(--text-primary);
 }
 
 .project-buttons {
@@ -355,12 +373,26 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  align-items: center;
 }
 
 .chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  height: 30px;
+  min-width: 84px;
+  border: 1px solid var(--border);
   border-radius: 999px;
-  padding: 4px 10px;
-  font-size: 0.78rem;
+  padding: 0 12px;
+  background: var(--pill-bg);
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  text-align: center;
 }
 
 .tech-name-pill {
@@ -488,7 +520,7 @@
   }
 
   .project-card h3 {
-    font-size: 1.6rem;
+    font-size: 1.45rem;
   }
 
   .contact-grid {
@@ -522,7 +554,12 @@
   }
 
   .project-card h3 {
-    font-size: 1.35rem;
+    font-size: 1.2rem;
+  }
+
+  .project-card p,
+  .project-highlights {
+    font-size: 0.9rem;
   }
 
   .contact-grid {

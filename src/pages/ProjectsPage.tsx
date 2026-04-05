@@ -271,7 +271,7 @@ export default function ProjectsPage() {
                     ))}
                   </div>
 
-                  <p>{project.description}</p>
+                  <p className="project-description">{project.description}</p>
                   <ul className="project-highlights">
                     {project.highlights.map((highlight) => (
                       <li key={`${project.title}-${highlight}`}>{highlight}</li>
