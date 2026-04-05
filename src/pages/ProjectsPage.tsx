@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import loanChatbotDark from "../assets/loanChatbotDark.png";
 import loanChatbotLight from "../assets/loanChatbotLight.png";
+import profilePicture from "../assets/pfp.jpeg";
 import "./ProjectsPage.css";
 
 const PROFILE = {
   name: "Adish Jain",
   tagline: "Software Engineer | ML/AI + Full-Stack",
-  photoUrl: "https://github.com/adishjain97230.png",
+  photoUrl: profilePicture,
 };
 
 const PROJECTS = [
