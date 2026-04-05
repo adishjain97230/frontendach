@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./ProjectsPage.css";
 
 const PROFILE = {
   name: "Adish Jain",
-  tagline: "Software Engineer | ML + Full-Stack",
+  tagline: "Software Engineer | ML/AI + Full-Stack",
   photoUrl: "https://github.com/adishjain97230.png",
 };
 
@@ -13,32 +13,41 @@ const PROJECTS = [
     description:
       "A modern chatbot experience for loan eligibility guidance and Q&A, with dark/light themes and curated prompts.",
     stack: ["React", "TypeScript", "Python", "Django"],
-    ctaLabel: "Open Chatbot",
-    ctaTo: "/ml-chatbot",
-    repoLabel: "Frontend Repo",
-    repoUrl: "https://github.com/adishjain97230/frontendach",
+    websiteUrl: "/ml-chatbot",
+    repoLinks: [
+      {
+        label: "GitHub Frontend Repo",
+        href: "https://github.com/adishjain97230/frontendach",
+      },
+      {
+        label: "GitHub Backend Repo",
+        href: "https://github.com/adishjain97230/Credit_Assessment_Service",
+      },
+    ],
   },
   {
     title: "Credit Assessment Service",
     description:
       "Backend service for credit-risk workflows, model-backed scoring logic, and API-first integration for frontend clients.",
     stack: ["Django", "Redis", "Nginx", "Docker", "AWS"],
-    ctaLabel: "View Backend Repo",
-    ctaTo: "https://github.com/adishjain97230/Credit_Assessment_Service",
-    repoLabel: "Backend Repo",
-    repoUrl: "https://github.com/adishjain97230/Credit_Assessment_Service",
-    external: true,
+    repoLinks: [
+      {
+        label: "GitHub Repo",
+        href: "https://github.com/adishjain97230/Credit_Assessment_Service",
+      },
+    ],
   },
   {
     title: "More Projects",
     description:
       "A growing collection of ML + product projects, from model-serving APIs to polished frontend experiences.",
     stack: ["Python", "React", "TypeScript", "Docker"],
-    ctaLabel: "Explore GitHub",
-    ctaTo: "https://github.com/adishjain97230",
-    repoLabel: "GitHub Profile",
-    repoUrl: "https://github.com/adishjain97230",
-    external: true,
+    repoLinks: [
+      {
+        label: "GitHub Repo",
+        href: "https://github.com/adishjain97230",
+      },
+    ],
   },
 ];
 
@@ -55,13 +64,21 @@ const TECHNOLOGIES = [
 ];
 
 const CONTACTS = [
-  { label: "GitHub", value: "adishjain97230", href: "https://github.com/adishjain97230" },
+  {
+    label: "GitHub",
+    value: "adishjain97230",
+    href: "https://github.com/adishjain97230",
+  },
   {
     label: "LinkedIn",
     value: "adish-jain-7373b3229",
     href: "https://www.linkedin.com/in/adish-jain-7373b3229/",
   },
-  { label: "Email", value: "adishjain9723@gmail.com", href: "mailto:adishjain9723@gmail.com" },
+  {
+    label: "Email",
+    value: "adishjain9723@gmail.com",
+    href: "mailto:adishjain9723@gmail.com",
+  },
   { label: "Phone", value: "+91 84275 18614", href: "tel:+918427518614" },
   {
     label: "Resume",
@@ -71,6 +88,19 @@ const CONTACTS = [
 ];
 
 export default function ProjectsPage() {
+  const navigate = useNavigate();
+
+  const openProject = (project: (typeof PROJECTS)[number]) => {
+    const target = project.websiteUrl ?? project.repoLinks[0]?.href;
+
+    if (target.startsWith("/")) {
+      navigate(target);
+      return;
+    }
+
+    window.open(target, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <div className="projects-root">
       <main className="projects-shell">
@@ -80,14 +110,30 @@ export default function ProjectsPage() {
             <h1>{PROFILE.name}</h1>
             <p>{PROFILE.tagline}</p>
           </div>
-          <img className="hero-photo" src={PROFILE.photoUrl} alt={`${PROFILE.name} profile`} />
+          <img
+            className="hero-photo"
+            src={PROFILE.photoUrl}
+            alt={`${PROFILE.name} profile`}
+          />
         </section>
 
         <section className="section-block">
           <h2>Projects</h2>
           <div className="projects-grid">
             {PROJECTS.map((project) => (
-              <article key={project.title} className="project-card">
+              <article
+                key={project.title}
+                className="project-card project-card-clickable"
+                role="button"
+                tabIndex={0}
+                onClick={() => openProject(project)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    openProject(project);
+                  }
+                }}
+              >
                 <h3>{project.title}</h3>
                 <p>{project.description}</p>
                 <div className="chip-row">
@@ -97,19 +143,21 @@ export default function ProjectsPage() {
                     </span>
                   ))}
                 </div>
-                <div className="card-actions">
-                  {project.external ? (
-                    <a href={project.ctaTo} target="_blank" rel="noreferrer" className="btn-primary">
-                      {project.ctaLabel}
+                <div className="project-buttons">
+                  {project.repoLinks.map((repoLink) => (
+                    <a
+                      key={`${project.title}-${repoLink.label}`}
+                      href={repoLink.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="repo-btn"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                      }}
+                    >
+                      {repoLink.label}
                     </a>
-                  ) : (
-                    <Link to={project.ctaTo} className="btn-primary">
-                      {project.ctaLabel}
-                    </Link>
-                  )}
-                  <a href={project.repoUrl} target="_blank" rel="noreferrer" className="btn-ghost">
-                    {project.repoLabel}
-                  </a>
+                  ))}
                 </div>
               </article>
             ))}

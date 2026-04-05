@@ -90,6 +90,22 @@
   gap: 12px;
 }
 
+.project-card-clickable {
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+
+.project-card-clickable:hover {
+  border-color: var(--accent-strong);
+  transform: translateY(-1px);
+  background: rgba(141, 162, 255, 0.08);
+}
+
+.project-card-clickable:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
+}
+
 .project-card h3 {
   margin: 0;
   font-size: 1rem;
@@ -100,6 +116,36 @@
   color: var(--text-secondary);
   font-size: 0.92rem;
   line-height: 1.45;
+}
+
+.project-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.repo-btn {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 0 10px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  background: rgba(123, 140, 255, 0.1);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.repo-btn:hover {
+  border-color: var(--accent-strong);
+  background: rgba(141, 162, 255, 0.2);
+  transform: translateY(-1px);
 }
 
 .chip-row,
@@ -119,47 +165,6 @@
   font-size: 0.78rem;
   color: var(--text-secondary);
   background: rgba(255, 255, 255, 0.04);
-}
-
-.card-actions {
-  display: flex;
-  gap: 8px;
-  margin-top: auto;
-}
-
-.btn-primary,
-.btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  border-radius: 10px;
-  min-height: 34px;
-  padding: 0 11px;
-  font-size: 0.82rem;
-  border: 1px solid transparent;
-  transition: all 0.2s ease;
-}
-
-.btn-primary {
-  background: var(--accent);
-  color: #ffffff;
-}
-
-.btn-primary:hover {
-  background: var(--accent-strong);
-  transform: translateY(-1px);
-}
-
-.btn-ghost {
-  border-color: var(--border);
-  color: var(--text-primary);
-  background: transparent;
-}
-
-.btn-ghost:hover {
-  border-color: var(--accent-strong);
-  background: rgba(123, 140, 255, 0.1);
 }
 
 .contact-block {
