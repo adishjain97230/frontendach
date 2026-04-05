@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import loanChatbotDark from "../assets/loanChatbotDark.png";
+import loanChatbotLight from "../assets/loanChatbotLight.png";
 import "./ProjectsPage.css";
 
 const PROFILE = {
@@ -19,10 +21,7 @@ const PROJECTS = [
       "Deployed the backend on AWS EC2 with nginx as a reverse proxy and Docker for containerization.",
       "Shipped a React/TypeScript UI with dark/light themes and solid UX for loading, errors, and follow-up prompts.",
     ],
-    screenshots: [
-      "https://placehold.co/1200x720/0f1220/cdd6ff?text=Loan+Chatbot+UI",
-      "https://placehold.co/1200x720/131a2f/d6e2ff?text=Loan+Chatbot+Conversation",
-    ],
+    screenshots: [loanChatbotDark, loanChatbotLight],
     stack: [
       "LangChain",
       "LangGraph",
