@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import loanChatbotDark from "../assets/loanChatbotDark.png";
 import loanChatbotLight from "../assets/loanChatbotLight.png";
+import wordleDark from "../assets/wordleDark.png";
+import wordleLight from "../assets/wordleLight.png";
 import profilePicture from "../assets/pfp.jpeg";
 import "./ProjectsPage.css";
 
@@ -58,10 +60,7 @@ const PROJECTS = [
       "Stored each active round's target word in MySQL so gameplay logic remains trusted on the backend.",
       "Implemented a responsive React UI with themed tiles, status feedback, and new game flow.",
     ],
-    screenshots: [
-      "https://placehold.co/1200x720/101726/d1dcff?text=Wordle+Gameplay",
-      "https://placehold.co/1200x720/0f1320/c4d1ff?text=Wordle+Backend+Flow",
-    ],
+    screenshots: [wordleDark, wordleLight],
     stack: ["Python", "MySQL", "React"],
     websiteUrl: "/wordle",
     repoLinks: [
