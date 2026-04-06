@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { WORDLE_CHECK_WORD_URL, WORDLE_GET_WORD_URL } from "../constants/api";
 import "./WordlePage.css";
 
@@ -210,27 +211,32 @@ export default function WordlePage() {
               </span>
             </p>
           </div>
-          <div
-            className="wordle-theme-toggle"
-            role="group"
-            aria-label="Theme toggle"
-          >
-            <button
-              type="button"
-              className={`wordle-theme-btn ${!isDark ? "active" : ""}`}
-              onClick={() => setIsDark(false)}
-              aria-label="Use light mode"
+          <div className="wordle-hero-actions">
+            <Link to="/" className="wordle-profile-btn">
+              View Complete Profile
+            </Link>
+            <div
+              className="wordle-theme-toggle"
+              role="group"
+              aria-label="Theme toggle"
             >
-              <SunIcon />
-            </button>
-            <button
-              type="button"
-              className={`wordle-theme-btn ${isDark ? "active" : ""}`}
-              onClick={() => setIsDark(true)}
-              aria-label="Use dark mode"
-            >
-              <MoonIcon />
-            </button>
+              <button
+                type="button"
+                className={`wordle-theme-btn ${!isDark ? "active" : ""}`}
+                onClick={() => setIsDark(false)}
+                aria-label="Use light mode"
+              >
+                <SunIcon />
+              </button>
+              <button
+                type="button"
+                className={`wordle-theme-btn ${isDark ? "active" : ""}`}
+                onClick={() => setIsDark(true)}
+                aria-label="Use dark mode"
+              >
+                <MoonIcon />
+              </button>
+            </div>
           </div>
         </section>
 

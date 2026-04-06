@@ -50,19 +50,20 @@ const PROJECTS = [
     ],
   },
   {
-    title: "Credit Assessment Service",
+    title: "Wordle Game",
     description:
-      "Backend service for credit-risk workflows, model-backed scoring logic, and API-first integration for frontend clients.",
+      "Full-stack Wordle game with a React frontend and Python backend APIs. The game state stays secure server-side by storing the active target word in MySQL, so the answer is never exposed to the player's browser.",
     highlights: [
-      "Designed risk-evaluation APIs for real-time frontend usage.",
-      "Implemented model-backed scoring pipeline and service orchestration.",
-      "Optimized reliability with Redis caching and containerized deployment.",
+      "Built guess-validation APIs in Python to start rounds and check each submitted guess.",
+      "Stored each active round's target word in MySQL so gameplay logic remains trusted on the backend.",
+      "Implemented a responsive React UI with themed tiles, status feedback, and new game flow.",
     ],
     screenshots: [
-      "https://placehold.co/1200x720/101726/d1dcff?text=Risk+Dashboard",
-      "https://placehold.co/1200x720/0f1320/c4d1ff?text=API+and+Service+Layer",
+      "https://placehold.co/1200x720/101726/d1dcff?text=Wordle+Gameplay",
+      "https://placehold.co/1200x720/0f1320/c4d1ff?text=Wordle+Backend+Flow",
     ],
-    stack: ["Django", "Redis", "Nginx", "Docker", "AWS"],
+    stack: ["Python", "MySQL", "React"],
+    websiteUrl: "/wordle",
     repoLinks: [
       {
         label: "GitHub Repo",

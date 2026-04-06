@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { Link } from "react-router-dom";
 import { CHATBOT_CHAT_URL } from "../constants/api";
 import {
   CHAT_ERROR_FETCH,
@@ -327,6 +328,9 @@ const Chatbot = () => {
             <header className="chat-header">
               <span className="chat-header-title">Loan Chatbot</span>
               <div className="chat-header-controls">
+                <Link to="/" className="chat-profile-btn">
+                  View Complete Profile
+                </Link>
                 <div className="theme-toggle" role="group" aria-label="Theme">
                   <button
                     className={`theme-btn${!isDark ? " active" : ""}`}

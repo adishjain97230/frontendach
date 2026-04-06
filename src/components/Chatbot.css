@@ -345,6 +345,37 @@
 .chat-header-controls {
   display: flex;
   align-items: center;
+  gap: 10px;
+}
+
+.chat-profile-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-elevated);
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: background var(--transition), border-color var(--transition),
+    transform 0.1s;
+}
+
+.chat-profile-btn:hover {
+  border-color: var(--toggle-active-bg);
+  background: var(--surface-hover);
+  transform: translateY(-1px);
+}
+
+.chat-profile-btn:focus-visible {
+  outline: 2px solid var(--send-bg);
+  outline-offset: 2px;
 }
 
 .theme-toggle {
@@ -632,5 +663,11 @@
 
   .info-footer {
     margin-top: 8px;
+  }
+
+  .chat-profile-btn {
+    min-height: 28px;
+    padding: 0 8px;
+    font-size: 0.68rem;
   }
 }

@@ -152,6 +152,41 @@
   gap: 2px;
 }
 
+.wordle-hero-actions {
+  display: grid;
+  justify-items: end;
+  gap: 10px;
+}
+
+.wordle-profile-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-alt);
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.1s;
+}
+
+.wordle-profile-btn:hover {
+  border-color: var(--accent-strong);
+  background: rgba(141, 162, 255, 0.14);
+  transform: translateY(-1px);
+}
+
+.wordle-profile-btn:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
+}
+
 .wordle-theme-btn {
   display: flex;
   align-items: center;
@@ -325,6 +360,11 @@
   .wordle-hero-card {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .wordle-hero-actions {
+    width: 100%;
+    justify-items: start;
   }
 
   .wordle-input-row {
