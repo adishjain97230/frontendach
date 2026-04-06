@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { WORDLE_CHECK_WORD_URL, WORDLE_GET_WORD_URL } from "../constants/api";
+import { useRef } from "react";
 
 export default function WordlePage() {
   const [currentWord, setCurrentWord] = useState("");
   const [words, setWords] = useState<string[]>([]);
   const [feedbacks, setFeedbacks] = useState<number[][]>([]);
-  let targetWordId = 0;
+  const targetWordIdRef = useRef<number | null>(null);
 
   const handleSubmit = async () => {
     if (currentWord.length !== 5) {
@@ -22,14 +23,14 @@ export default function WordlePage() {
           return;
         }
         const word_data = await word_response.json();
-        targetWordId = word_data.word_id;
+        targetWordIdRef.current = word_data.word_id;
       }
 
       const feedback_response = await fetch(WORDLE_CHECK_WORD_URL, {
         method: "POST",
         headers: {},
         body: JSON.stringify({
-          word_id: targetWordId,
+          word_id: targetWordIdRef.current,
           guess: currentWord,
           guess_number: words.length,
         }),
