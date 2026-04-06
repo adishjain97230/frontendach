@@ -91,6 +91,18 @@ export default function WordlePage() {
     );
   }, [isDark]);
 
+  const handleNewGame = () => {
+    if (isSubmitting) {
+      return;
+    }
+
+    setWords([]);
+    setFeedbacks([]);
+    setCurrentWord("");
+    setError(null);
+    targetWordIdRef.current = null;
+  };
+
   const handleSubmit = async () => {
     if (currentWord.length !== WORD_LENGTH) {
       setError("Please enter exactly 5 letters.");
@@ -99,7 +111,9 @@ export default function WordlePage() {
 
     if (hasFinished) {
       setError(
-        hasWon ? "Game finished. You already won." : "No guesses left in this round.",
+        hasWon
+          ? "Game finished. You already won."
+          : "No guesses left in this round.",
       );
       return;
     }
@@ -179,9 +193,28 @@ export default function WordlePage() {
           <div className="wordle-hero-copy">
             <p className="wordle-kicker">Mini Game</p>
             <h1>Wordle</h1>
-            <p>Guess the hidden five-letter word in six tries.</p>
+            <p className="wordle-subtitle">
+              Guess the hidden five-letter word in six tries.
+              <span
+                className="wordle-rules-trigger"
+                tabIndex={0}
+                aria-label="Game rules"
+              >
+                ?
+                <span className="wordle-rules-tooltip" role="tooltip">
+                  Guess a valid five-letter word. Green means correct letter in
+                  the correct spot, yellow means correct letter in the wrong
+                  spot, and gray means the letter is not in the word. You have
+                  six guesses.
+                </span>
+              </span>
+            </p>
           </div>
-          <div className="wordle-theme-toggle" role="group" aria-label="Theme toggle">
+          <div
+            className="wordle-theme-toggle"
+            role="group"
+            aria-label="Theme toggle"
+          >
             <button
               type="button"
               className={`wordle-theme-btn ${!isDark ? "active" : ""}`}
@@ -206,13 +239,27 @@ export default function WordlePage() {
             <span className="wordle-status-pill">
               Guess {Math.min(words.length + 1, MAX_GUESSES)} / {MAX_GUESSES}
             </span>
-            {hasWon && <span className="wordle-status-pill success">You solved it!</span>}
+            {hasWon && (
+              <span className="wordle-status-pill success">You solved it!</span>
+            )}
             {!hasWon && words.length >= MAX_GUESSES && (
               <span className="wordle-status-pill danger">Round complete</span>
             )}
+            <button
+              type="button"
+              className="wordle-new-game"
+              onClick={handleNewGame}
+              disabled={isSubmitting}
+            >
+              New Game
+            </button>
           </div>
 
-          {error && <p className="wordle-error" role="alert">{error}</p>}
+          {error && (
+            <p className="wordle-error" role="alert">
+              {error}
+            </p>
+          )}
 
           <div className="wordle-grid" aria-live="polite">
             {Array.from({ length: MAX_GUESSES }, (_, rowIndex) => {
@@ -223,7 +270,9 @@ export default function WordlePage() {
                 <div key={`row-${rowIndex}`} className="wordle-row">
                   {Array.from({ length: WORD_LENGTH }, (_, colIndex) => {
                     const letter = guess[colIndex]?.toUpperCase() ?? "";
-                    const feedbackCode = feedback[colIndex] as FeedbackCode | undefined;
+                    const feedbackCode = feedback[colIndex] as
+                      | FeedbackCode
+                      | undefined;
                     const tileClass =
                       feedbackCode === 2
                         ? "wordle-tile green"
@@ -234,7 +283,10 @@ export default function WordlePage() {
                             : "wordle-tile";
 
                     return (
-                      <div key={`tile-${rowIndex}-${colIndex}`} className={tileClass}>
+                      <div
+                        key={`tile-${rowIndex}-${colIndex}`}
+                        className={tileClass}
+                      >
                         {letter}
                       </div>
                     );
@@ -274,12 +326,6 @@ export default function WordlePage() {
             >
               {isSubmitting ? "Submitting..." : "Submit"}
             </button>
-          </div>
-
-          <div className="wordle-legend">
-            <span><i className="legend-swatch gray" />0 = gray</span>
-            <span><i className="legend-swatch yellow" />1 = yellow</span>
-            <span><i className="legend-swatch green" />2 = green</span>
           </div>
         </section>
       </main>
