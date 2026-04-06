@@ -2,50 +2,115 @@ import { useState } from "react";
 import { WORDLE_CHECK_WORD_URL, WORDLE_GET_WORD_URL } from "../constants/api";
 import { useRef } from "react";
 
+type GetWordResponse = {
+  word_id: number;
+};
+
+type CheckWordResponse = {
+  feedback: number[];
+};
+
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function isGetWordResponse(value: unknown): value is GetWordResponse {
+  return isObject(value) && typeof value.word_id === "number";
+}
+
+function isCheckWordResponse(value: unknown): value is CheckWordResponse {
+  return (
+    isObject(value) &&
+    Array.isArray(value.feedback) &&
+    value.feedback.every((item) => typeof item === "number")
+  );
+}
+
 export default function WordlePage() {
   const [currentWord, setCurrentWord] = useState("");
   const [words, setWords] = useState<string[]>([]);
   const [feedbacks, setFeedbacks] = useState<number[][]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const targetWordIdRef = useRef<number | null>(null);
 
   const handleSubmit = async () => {
     if (currentWord.length !== 5) {
+      setError("Please enter exactly 5 letters.");
       return;
-    } else {
-      setWords((prev) => [...prev, currentWord]);
-      setCurrentWord("");
-      if (words.length === 0) {
-        const word_response = await fetch(WORDLE_GET_WORD_URL, {
+    }
+
+    if (isSubmitting) {
+      return;
+    }
+
+    const guess = currentWord;
+    setError(null);
+    setIsSubmitting(true);
+
+    try {
+      let wordId = targetWordIdRef.current;
+
+      if (wordId === null) {
+        const wordResponse = await fetch(WORDLE_GET_WORD_URL, {
           method: "GET",
-          headers: {},
+          headers: {
+            Accept: "application/json",
+          },
         });
-        if (!word_response.ok) {
+
+        if (!wordResponse.ok) {
+          setError(`Could not start game (HTTP ${wordResponse.status}).`);
           return;
         }
-        const word_data = await word_response.json();
-        targetWordIdRef.current = word_data.word_id;
+
+        const rawWordData: unknown = await wordResponse.json();
+        if (!isGetWordResponse(rawWordData)) {
+          setError("Invalid response received while starting the game.");
+          return;
+        }
+
+        wordId = rawWordData.word_id;
+        targetWordIdRef.current = wordId;
       }
 
-      const feedback_response = await fetch(WORDLE_CHECK_WORD_URL, {
+      const feedbackResponse = await fetch(WORDLE_CHECK_WORD_URL, {
         method: "POST",
-        headers: {},
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
-          word_id: targetWordIdRef.current,
-          guess: currentWord,
+          word_id: wordId,
+          guess,
           guess_number: words.length,
         }),
       });
-      if (!feedback_response.ok) {
+
+      if (!feedbackResponse.ok) {
+        setError(`Could not validate guess (HTTP ${feedbackResponse.status}).`);
         return;
       }
-      const feedback_data = await feedback_response.json();
-      setFeedbacks((prev) => [...prev, feedback_data.feedback]);
-      return;
+
+      const rawFeedbackData: unknown = await feedbackResponse.json();
+      if (!isCheckWordResponse(rawFeedbackData)) {
+        setError("Invalid response received while checking your guess.");
+        return;
+      }
+
+      setWords((prev) => [...prev, guess]);
+      setFeedbacks((prev) => [...prev, rawFeedbackData.feedback]);
+      setCurrentWord("");
+    } catch {
+      setError("Unexpected network error. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <>
+      {error && <p role="alert">{error}</p>}
       <ul>
         {words.map((word) => (
           <li key={word}>{word}</li>
@@ -68,7 +133,7 @@ export default function WordlePage() {
           )
         }
       ></textarea>
-      <button id="wordle-submit" onClick={handleSubmit}>
+      <button id="wordle-submit" onClick={handleSubmit} disabled={isSubmitting}>
         Submit
       </button>
     </>
