@@ -11,6 +11,10 @@ type CheckWordResponse = {
   feedback: number[];
 };
 
+type InvalidWordResponse = {
+  valid_word: false;
+};
+
 type FeedbackCode = 0 | 1 | 2;
 type KeyboardStatus = "gray" | "yellow" | "green";
 
@@ -36,6 +40,10 @@ function isCheckWordResponse(value: unknown): value is CheckWordResponse {
         typeof item === "number" && (item === 0 || item === 1 || item === 2),
     )
   );
+}
+
+function isInvalidWordResponse(value: unknown): value is InvalidWordResponse {
+  return isObject(value) && value.valid_word === false;
 }
 
 const SunIcon = () => (
@@ -199,6 +207,17 @@ export default function WordlePage() {
       });
 
       if (!feedbackResponse.ok) {
+        if (feedbackResponse.status === 400) {
+          const rawErrorData: unknown = await feedbackResponse
+            .json()
+            .catch(() => null);
+
+          if (isInvalidWordResponse(rawErrorData)) {
+            setError("Not a valid word. Try another guess.");
+            return;
+          }
+        }
+
         setError(`Could not validate guess (HTTP ${feedbackResponse.status}).`);
         return;
       }
