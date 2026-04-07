@@ -54,7 +54,10 @@ const TECH_STACK = [
   { name: "Nginx", icon: "https://cdn.simpleicons.org/nginx/009639" },
   { name: "React", icon: "https://cdn.simpleicons.org/react/61DAFB" },
   { name: "TypeScript", icon: "https://cdn.simpleicons.org/typescript/3178C6" },
-  { name: "AWS", icon: "https://www.vectorlogo.zone/logos/amazon_aws/amazon_aws-icon.svg" },
+  {
+    name: "AWS",
+    icon: "https://www.vectorlogo.zone/logos/amazon_aws/amazon_aws-icon.svg",
+  },
   { name: "Docker", icon: "https://cdn.simpleicons.org/docker/2496ED" },
 ];
 
@@ -328,9 +331,6 @@ const Chatbot = () => {
             <header className="chat-header">
               <span className="chat-header-title">Loan Chatbot</span>
               <div className="chat-header-controls">
-                <Link to="/" className="chat-profile-btn">
-                  Profile
-                </Link>
                 <div className="theme-toggle" role="group" aria-label="Theme">
                   <button
                     className={`theme-btn${!isDark ? " active" : ""}`}
@@ -349,6 +349,14 @@ const Chatbot = () => {
                 </div>
               </div>
             </header>
+            <div className="profile-shortcut-row">
+              <Link
+                to="/"
+                className="chat-profile-btn chat-profile-btn-prominent"
+              >
+                Go to Profile
+              </Link>
+            </div>
 
             {/* Messages */}
             <div className="messages-area">

@@ -352,30 +352,53 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 30px;
-  padding: 0 10px;
-  border: 1px solid var(--border);
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid transparent;
   border-radius: 8px;
-  background: var(--surface-elevated);
-  color: var(--text-primary);
+  background: var(--send-bg);
+  color: #ffffff;
   text-decoration: none;
-  font-size: 0.74rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  box-shadow: 0 6px 16px rgba(74, 124, 247, 0.28);
   transition: background var(--transition), border-color var(--transition),
-    transform 0.1s;
+    transform 0.1s, box-shadow var(--transition);
 }
 
 .chat-profile-btn:hover {
-  border-color: var(--toggle-active-bg);
-  background: var(--surface-hover);
+  border-color: rgba(255, 255, 255, 0.35);
+  background: var(--send-hover);
   transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(58, 108, 231, 0.34);
 }
 
 .chat-profile-btn:focus-visible {
-  outline: 2px solid var(--send-bg);
+  outline: 2px solid var(--send-hover);
   outline-offset: 2px;
+}
+
+.profile-shortcut-row {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--header-border);
+  background: var(--surface-elevated);
+  display: flex;
+  justify-content: flex-start;
+  flex-shrink: 0;
+}
+
+.chat-profile-btn-prominent {
+  min-height: 40px;
+  padding: 0 16px;
+  font-size: 0.8rem;
+  letter-spacing: 0.07em;
+  box-shadow: 0 10px 24px rgba(74, 124, 247, 0.35);
+}
+
+.chat-profile-btn-prominent:hover {
+  box-shadow: 0 12px 26px rgba(58, 108, 231, 0.42);
 }
 
 .theme-toggle {
@@ -667,7 +690,7 @@
 
   .chat-profile-btn {
     min-height: 28px;
-    padding: 0 8px;
+    padding: 0 9px;
     font-size: 0.68rem;
   }
 }
@@ -725,6 +748,15 @@
     padding: 12px 14px;
   }
 
+  .profile-shortcut-row {
+    padding: 10px 12px;
+  }
+
+  .chat-profile-btn-prominent {
+    min-height: 36px;
+    width: 100%;
+  }
+
   .chat-header-title {
     font-size: 1rem;
   }
@@ -736,9 +768,8 @@
   .chat-profile-btn {
     min-height: 28px;
     padding: 0 7px;
-    font-size: 0.62rem;
-    letter-spacing: 0.03em;
-    text-transform: none;
+    font-size: 0.64rem;
+    letter-spacing: 0.04em;
   }
 
   .theme-btn {
