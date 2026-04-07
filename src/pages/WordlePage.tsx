@@ -12,7 +12,7 @@ type CheckWordResponse = {
 };
 
 type InvalidWordResponse = {
-  valid_word: false;
+  word_valid: false;
 };
 
 type FeedbackCode = 0 | 1 | 2;
@@ -43,7 +43,7 @@ function isCheckWordResponse(value: unknown): value is CheckWordResponse {
 }
 
 function isInvalidWordResponse(value: unknown): value is InvalidWordResponse {
-  return isObject(value) && value.valid_word === false;
+  return isObject(value) && value.word_valid === false;
 }
 
 const SunIcon = () => (
