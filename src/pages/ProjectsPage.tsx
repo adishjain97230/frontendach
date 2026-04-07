@@ -42,11 +42,11 @@ const PROJECTS = [
     websiteUrl: "/ml-chatbot",
     repoLinks: [
       {
-        label: "GitHub Frontend Repo",
+        label: "Frontend Repo",
         href: "https://github.com/adishjain97230/frontendach",
       },
       {
-        label: "GitHub Backend Repo",
+        label: "Backend Repo",
         href: "https://github.com/adishjain97230/Credit_Assessment_Service",
       },
     ],
@@ -65,7 +65,7 @@ const PROJECTS = [
     websiteUrl: "/wordle",
     repoLinks: [
       {
-        label: "GitHub Repo",
+        label: "Repo",
         href: "https://github.com/adishjain97230/Credit_Assessment_Service",
       },
     ],

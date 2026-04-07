@@ -566,3 +566,115 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 480px) {
+  .projects-root {
+    padding: 12px;
+  }
+
+  .projects-shell {
+    gap: 12px;
+  }
+
+  .hero-card,
+  .section-block {
+    border-radius: 14px;
+  }
+
+  .hero-card {
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .section-block {
+    padding: 14px;
+  }
+
+  .hero-kicker {
+    margin-bottom: 6px;
+    font-size: 0.68rem;
+    letter-spacing: 0.11em;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(1.6rem, 10vw, 2.2rem);
+  }
+
+  .hero-copy p {
+    margin-top: 8px;
+    font-size: 0.9rem;
+  }
+
+  .project-theme-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .projects-grid {
+    grid-auto-columns: minmax(88vw, 88vw);
+  }
+
+  .project-card {
+    min-height: auto;
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .project-card h3 {
+    font-size: 1.08rem;
+  }
+
+  .project-card p,
+  .project-highlights {
+    font-size: 0.84rem;
+  }
+
+  .project-highlights {
+    padding-left: 16px;
+    gap: 5px;
+  }
+
+  .repo-btn {
+    min-height: 32px;
+    padding: 6px 9px;
+    font-size: 0.68rem;
+    letter-spacing: 0.03em;
+    text-transform: none;
+    line-height: 1.25;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .projects-more-link {
+    min-height: 34px;
+    padding: 0 12px;
+    font-size: 0.82rem;
+  }
+
+  .chip {
+    height: 26px;
+    min-width: 68px;
+    padding: 0 10px;
+    font-size: 0.68rem;
+  }
+
+  .tech-name-grid {
+    grid-auto-columns: minmax(180px, 180px);
+    gap: 8px 10px;
+  }
+
+  .tech-name-pill {
+    min-width: 180px;
+    min-height: 46px;
+    gap: 8px;
+  }
+
+  .tech-name-pill span {
+    font-size: 0.88rem;
+  }
+
+  .contact-item strong {
+    font-size: 0.8rem;
+    overflow-wrap: anywhere;
+  }
+}

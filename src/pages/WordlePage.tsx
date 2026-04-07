@@ -245,7 +245,7 @@ export default function WordlePage() {
           </div>
           <div className="wordle-hero-actions">
             <Link to="/" className="wordle-profile-btn">
-              View Complete Profile
+              Profile
             </Link>
             <div
               className="wordle-theme-toggle"

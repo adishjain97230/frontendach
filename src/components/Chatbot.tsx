@@ -329,7 +329,7 @@ const Chatbot = () => {
               <span className="chat-header-title">Loan Chatbot</span>
               <div className="chat-header-controls">
                 <Link to="/" className="chat-profile-btn">
-                  View Complete Profile
+                  Profile
                 </Link>
                 <div className="theme-toggle" role="group" aria-label="Theme">
                   <button
