@@ -12,9 +12,11 @@ type CheckWordResponse = {
 };
 
 type FeedbackCode = 0 | 1 | 2;
+type KeyboardStatus = "gray" | "yellow" | "green";
 
 const WORD_LENGTH = 5;
 const MAX_GUESSES = 6;
+const KEYBOARD_ROWS = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"] as const;
 
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
@@ -84,6 +86,36 @@ export default function WordlePage() {
   const targetWordIdRef = useRef<number | null>(null);
   const hasWon = feedbacks.some((row) => row.every((tile) => tile === 2));
   const hasFinished = hasWon || words.length >= MAX_GUESSES;
+  const keyboardStatuses = words.reduce<Record<string, KeyboardStatus>>(
+    (statusMap, guess, rowIndex) => {
+      const rowFeedback = feedbacks[rowIndex] ?? [];
+
+      guess.split("").forEach((letter, colIndex) => {
+        const key = letter.toUpperCase();
+        const code = rowFeedback[colIndex] as FeedbackCode | undefined;
+
+        if (code === undefined) {
+          return;
+        }
+
+        const nextStatus: KeyboardStatus =
+          code === 2 ? "green" : code === 1 ? "yellow" : "gray";
+        const previousStatus = statusMap[key];
+
+        if (
+          previousStatus === "green" ||
+          (previousStatus === "yellow" && nextStatus === "gray")
+        ) {
+          return;
+        }
+
+        statusMap[key] = nextStatus;
+      });
+
+      return statusMap;
+    },
+    {},
+  );
 
   useEffect(() => {
     document.documentElement.setAttribute(
@@ -300,6 +332,24 @@ export default function WordlePage() {
                 </div>
               );
             })}
+          </div>
+
+          <div className="wordle-keyboard" aria-label="Used letters keyboard">
+            {KEYBOARD_ROWS.map((row) => (
+              <div key={row} className="wordle-keyboard-row">
+                {row.split("").map((letter) => (
+                  <div
+                    key={letter}
+                    className={`wordle-key ${keyboardStatuses[letter] ?? ""}`}
+                    aria-label={`${letter} ${
+                      keyboardStatuses[letter] ?? "unused"
+                    }`}
+                  >
+                    {letter}
+                  </div>
+                ))}
+              </div>
+            ))}
           </div>
 
           <div className="wordle-input-row">

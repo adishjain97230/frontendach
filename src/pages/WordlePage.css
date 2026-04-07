@@ -314,6 +314,49 @@
   color: #f3fff8;
 }
 
+.wordle-keyboard {
+  display: grid;
+  gap: 7px;
+}
+
+.wordle-keyboard-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.wordle-key {
+  width: clamp(26px, 6vw, 38px);
+  height: clamp(34px, 7vw, 44px);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: var(--tile-empty);
+  color: var(--text-primary);
+}
+
+.wordle-key.gray {
+  border-color: color-mix(in srgb, var(--tile-gray) 70%, var(--border));
+  background: color-mix(in srgb, var(--tile-gray) 70%, transparent);
+  color: #f3f6ff;
+}
+
+.wordle-key.yellow {
+  border-color: color-mix(in srgb, var(--tile-yellow) 75%, var(--border));
+  background: color-mix(in srgb, var(--tile-yellow) 70%, transparent);
+  color: #1b1a14;
+}
+
+.wordle-key.green {
+  border-color: color-mix(in srgb, var(--tile-green) 75%, var(--border));
+  background: color-mix(in srgb, var(--tile-green) 72%, transparent);
+  color: #f3fff8;
+}
+
 .wordle-input-row {
   display: grid;
   grid-template-columns: 1fr auto;
