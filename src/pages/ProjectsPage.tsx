@@ -133,7 +133,7 @@ const CONTACTS = [
   {
     label: "Resume",
     value: "View Resume",
-    href: "https://drive.google.com/file/d/1A6x07KyUqpIynABzOmq3kKGJPCB7ohhR/view?usp=drive_link",
+    href: "https://drive.google.com/file/d/1TeLN3VQVvOsmSzWfJXfor5pXqBte95su/view?usp=sharing",
     icon: "https://cdn.simpleicons.org/readthedocs/8CA1AF",
   },
 ];
